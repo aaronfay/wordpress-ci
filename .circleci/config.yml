@@ -66,5 +66,3 @@ jobs:
           network: wp-network
           vpn-token: $NGROK_TOKEN
           vpn-target: 'wp-container:80'
-
-
