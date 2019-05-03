@@ -38,7 +38,10 @@ jobs:
               --volumes-from wp-container \
               --network wp-network \
               wordpress:cli core install --url=localhost --title=test --admin_user=admin --admin_email=foo@bar.com
-#       - run:
-#           name: Install plugin
-#           command: |
-#             docker exec -it wp-container wp plugin install ghost-inspector
+      - run:
+          name: Install plugin
+          command: |
+            docker run -it --rm \
+              --volumes-from wp-container \
+              --network wp-network \
+              wordpress:cli plugin install ghost-inspector
