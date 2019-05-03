@@ -17,8 +17,6 @@ jobs:
             docker run -d \
               -e MYSQL_ROOT_PASSWORD=1234 \
               -e MYSQL_DATABASE=wordpress \
-              -e MYSQL_USER=wordpress \
-              -e MYSQL_PASSWORD=wordpress \
               --name db \
               --network wp-network \
               mysql:5.7
@@ -39,7 +37,7 @@ jobs:
             docker run -it --rm \
               --volumes-from wp-container \
               --network wp-network \
-              wordpress:cli core install
+              wordpress:cli core install --url=localhost --title=test --admin_user=admin --admin_email=foo@bar.com
 #       - run:
 #           name: Install plugin
 #           command: |
