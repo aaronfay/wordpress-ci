@@ -32,8 +32,15 @@ jobs:
               -e WORDPRESS_DB_NAME=wordpress \
               --name wp-container \
               --network wp-network \
-              wordpress:cli
+              wordpress
       - run:
-          name: Install plugin
+          name: Run WordPress CLI
           command: |
-            docker exec -it wp-container wp plugin install ghost-inspector
+            docker run -it --rm \
+              --volumes-from wp-container \
+              --network wp-network \
+              wordpress:cli user list
+#       - run:
+#           name: Install plugin
+#           command: |
+#             docker exec -it wp-container wp plugin install ghost-inspector
