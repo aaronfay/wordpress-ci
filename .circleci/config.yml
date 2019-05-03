@@ -6,7 +6,7 @@ executors:
     docker:
       - image: 'docker:17.05.0-ce-git'
 jobs:
-  build:
+  test_plugin:
     executor: docker-executor
     steps:
       - setup_remote_docker
@@ -66,3 +66,8 @@ jobs:
           network: wp-network
           vpn-token: $NGROK_TOKEN
           vpn-target: 'wp-container:80'
+
+workflows:
+  test:
+    jobs:
+      - test_plugin
