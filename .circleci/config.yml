@@ -1,5 +1,6 @@
 version: 2
-
+orbs:
+  ghostinspector: ghostinspector/test-runner@1.0.0
 jobs:
   build:
     docker:
