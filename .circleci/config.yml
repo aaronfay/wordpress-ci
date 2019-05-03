@@ -26,7 +26,7 @@ jobs:
           name: Run WordPress
           command: |
             docker run -d \
-              -e WORDPRESS_DB_HOST=db \
+              -e WORDPRESS_DB_HOST=db:3306 \
               -e WORDPRESS_DB_USER=wordpress \
               -e WORDPRESS_DB_PASSWORD=wordpress \
               -e WORDPRESS_DB_NAME=wordpress \
