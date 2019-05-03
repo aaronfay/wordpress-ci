@@ -57,7 +57,7 @@ jobs:
               wordpress:cli plugin install ghost-inspector \
                 --activate \
                 --url=localhost
-      - ghostinspector/test-docker-app:
+      - ghostinspector/test-standalone-app:
           suite-id: $GI_SUITE
           network: wp-network
           vpn-token: $NGROK_TOKEN
