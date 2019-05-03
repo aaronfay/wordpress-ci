@@ -27,7 +27,7 @@ jobs:
               --network wp-network \
               mysql:5.7
       - run:
-          name: Run WordPress
+          name: Start WordPress
           command: |
             docker run -d \
               -e WORDPRESS_DB_HOST=db:3306 \
@@ -50,12 +50,8 @@ jobs:
                 --admin_password=admin \
                 --admin_email=foo@bar.com
       - run:
-          name: Install plugin
+          name: Install Ghost Inpector plugin
           command: |
-            docker run -it --rm \
-              --volumes-from wp-container \
-              --network wp-network \
-              wordpress:cli plugin install ghost-inspector
             docker run -it --rm \
               --volumes-from wp-container \
               --user xfs \
