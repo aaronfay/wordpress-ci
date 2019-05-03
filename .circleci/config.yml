@@ -21,7 +21,7 @@ jobs:
               -e MYSQL_PASSWORD=wordpress \
               --name db \
               --network wp-network \
-              mysql:5.7
+              mysql
       - run:
           name: Run WordPress
           command: |
@@ -39,7 +39,7 @@ jobs:
             docker run -it --rm \
               --volumes-from wp-container \
               --network wp-network \
-              wordpress:cli user list
+              wordpress:cli core install
 #       - run:
 #           name: Install plugin
 #           command: |
