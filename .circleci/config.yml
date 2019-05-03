@@ -1,13 +1,9 @@
 version: 2.1
 orbs:
   ghostinspector: ghostinspector/test-runner@1.0.0
-executors:
-  docker-executor:
-    docker:
-      - image: 'docker:17.05.0-ce-git'
 jobs:
   test_plugin:
-    executor: docker-executor
+    executor: ghostinspector/default
     steps:
       - setup_remote_docker
       - checkout
