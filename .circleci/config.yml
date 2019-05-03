@@ -21,7 +21,7 @@ jobs:
               -e MYSQL_PASSWORD=wordpress \
               --name db \
               --network wp-network \
-              mysql
+              mysql:5.7
       - run:
           name: Run WordPress
           command: |
