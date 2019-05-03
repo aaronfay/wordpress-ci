@@ -3,37 +3,37 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/buildpack-deps
-      # - image: wordpress
-      #   environment:
-      #     WORDPRESS_DB_HOST: localhost
-      #     WORDPRESS_DB_USER: exampleuser
-      #     WORDPRESS_DB_PASSWORD: examplepass
-      #     WORDPRESS_DB_NAME: exampledb
-
-      - image: circleci/mysql:5.7
-        environment:
-          MYSQL_DATABASE: exampledb
-          MYSQL_USER: exampleuser
-          MYSQL_PASSWORD: examplepass
-          MYSQL_RANDOM_ROOT_PASSWORD: '1'
-
-      # - image: wordpress:cli
-
+      - image: docker:17.05.0-ce-git
     steps:
-      - checkout
       - setup_remote_docker
+      - checkout
       - run:
-          name: wait for DB
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
-      - run:
-          name: start WordPress
-          command: docker run -d --name some-wordpress -p 8080:80 wordpress
-
-      - run:
-          name: download, config, and install WordPress
+          name: Set up network
           command: |
-            docker run -it --rm \
-            --volumes-from some-wordpress \
-            --network container:some-wordpress \
-            wordpress:cli core install --url=localhost --title=test --admin_user=test --admin_password=test --admin_email=test@example.com --allow-root --path=/var/www/html
+            docker network create wp-network
+      - run:
+          name: Set up database
+          command: |
+            docker run -d \
+              -e MYSQL_ROOT_PASSWORD=1234 \
+              -e MYSQL_DATABASE=wordpress \
+              -e MYSQL_USER=wordpress \
+              -e MYSQL_PASSWORD=wordpress \
+              --name db \
+              --network wp-network \
+              mysql:5.7
+      - run:
+          name: Run WordPress
+          command: |
+            docker run -d \
+              -e WORDPRESS_DB_HOST=db \
+              -e WORDPRESS_DB_USER=wordpress \
+              -e WORDPRESS_DB_PASSWORD=wordpress \
+              -e WORDPRESS_DB_NAME=wordpress \
+              --name wp-container \
+              --network wp-network \
+              wordpress:cli
+      - run:
+          name: Install plugin
+          command: |
+            docker exec -it wp-container wp plugin install ghost-inspector
